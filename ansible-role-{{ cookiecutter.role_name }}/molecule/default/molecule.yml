@@ -3,24 +3,26 @@ dependency:
   name: galaxy
 
 driver:
-  name: docker
+  name: podman
 
 platforms:
+  # more information about dynamic images https://www.jeffgeerling.com/blog/2018/testing-your-ansible-roles-molecule
+  # IMAGE=quay.io/podman/stable && SCENARIO=docker_driver && molecule test -s $SCENARIO
   # On "${name:-${image:-debian}", the last brace does not miss, it works like that...
   # The env var should be used when the image variable refers to a full registry path like registry.access.redhat.com/ubi8/ubi
-  - name: claranet_{{ cookiecutter.role_name }}_${name:-${image:-debian}-${tag:-latest}-${scenario:-default}
-    image: ${image:-debian}:${tag:-latest}
+  - name: insidegroup_{{ cookiecutter.role_name }}_${name:-${IMAGE:-fedora}-${TAG:-latest}-${SCENARIO:-default}
+    image: ${IMAGE:-fedora}:${TAG:-latest}
     privileged: true
     tty: true
+    tmpfs:
+      - /run
+      - /tmp
     volumes:
-      - "/sys/fs/cgroup:/sys/fs/cgroup:rw"
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
-    stop_signal: "SIGRTMIN+3"
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
     capabilities:
       - SYS_ADMIN
       - SYS_TIME
       - LINUX_IMMUTABLE
-    command: "/lib/systemd/systemd"
 
 provisioner:
   name: ansible
@@ -30,7 +32,7 @@ provisioner:
     v: true
 
 verifier:
-  name: testinfra
+  name: ansible
   options:
     verbose: true
     s: true

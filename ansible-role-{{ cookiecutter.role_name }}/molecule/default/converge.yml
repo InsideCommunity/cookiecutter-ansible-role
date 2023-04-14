@@ -2,4 +2,4 @@
 - name: Converge
   hosts: all
   roles:
-    - role: claranet.{{ cookiecutter.role_name }}
+    - role: insidegroup.{{ cookiecutter.role_name }}
