@@ -21,4 +21,31 @@ You'll be prompted for informations in the cookiecutter.json :
 cookiecutter gh:InsideCommunity/cookiecutter-ansible-role
 ```
 
+## Resulting tree :
 
+```
+ansible-role-something/
+├── CONTRIBUTING.md
+├── HARDENING.md
+├── LICENSE
+├── README.md
+├── defaults
+│   └── main.yml
+├── meta
+│   └── main.yml
+├── molecule
+│   └── default
+│       ├── Dockerfile.j2
+│       ├── converge.yml
+│       └── molecule.yml
+├── tasks
+│   └── main.yml
+├── templates
+│   └── README.j2
+├── vars
+│   └── main.yml
+└── .github
+    └── workflows
+        ├── galaxy.yml
+        └── molecule.yml
+```
